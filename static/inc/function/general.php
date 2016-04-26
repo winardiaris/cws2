@@ -4,29 +4,29 @@ function select_tbl($table,$field_name=null,$where=null,$limit=null,$debug=null)
 	$DB=DB();
 	if(isset($table)){
 		$sql = "SELECT";
-		
+
 		if(isset($field_name)){
 			$sql .=" ".$field_name." ";
 		}
 		else{
 			$sql .=" * ";
 		}
-		
+
 		$sql .="FROM `$table` ";
-		
+
 		if(isset($where)){
 			$sql .=" WHERE $where ";
 		}
-		
+
 		if(isset($limit)){
 			$sql .=" LIMIT $limit ";
 		}
-		
+
 		if(empty($debug)){
 			$q = mysqli_query($DB,$sql);
 			$count = mysqli_num_fields($q);
 			$datas = array();
-						
+
 			while($d=mysqli_fetch_array($q)){
 				$fname = array();
 				$dataa = array();
@@ -42,7 +42,7 @@ function select_tbl($table,$field_name=null,$where=null,$limit=null,$debug=null)
 			}
 			$data = array("data"=>$datas);
 			return $data;
-		}	
+		}
 		else{
 			return $sql.PHP_EOL;
 		}
@@ -58,21 +58,21 @@ function insert_to_tbl($table,$field_name,$value_data,$debug=null){
 			$sql = "INSERT INTO `$table`";
 			$sql .=" ($field_name,`c_at`)";
 			$sql .=" VALUES($value_data,'".__NOW__."')";
-			
+
 			if(isset($where)){
 				$sql .=" WHERE $where ";
 			}
-			
+
 			if(empty($debug)){
 				$q = mysqli_query($DB,$sql);
 				if($q){
 					return true;
 				}
-			}	
+			}
 			else{
 				return $sql.PHP_EOL;
 			}
-			
+
 		}
 		else{
 			return false;
@@ -91,13 +91,13 @@ function update_tbl($table,$set_data,$where,$debug=null){
 			if(isset($where)){
 				$sql .=" WHERE $where ";
 			}
-			
+
 			if(empty($debug)){
 				$q = mysqli_query($DB,$sql);
 				if($q){
 					return status("success");
 				}
-			}	
+			}
 			else{
 				return $sql.PHP_EOL;
 			}
@@ -117,7 +117,7 @@ function select_tbl_qry($query,$debug=null){
 		if(empty($debug)){
 			$q = mysqli_query($DB,$sql);
 			$count = mysqli_num_fields($q);
-						
+
 			$datas = array();
 			while($d=mysqli_fetch_array($q)){
 				$fname = array();
@@ -134,7 +134,7 @@ function select_tbl_qry($query,$debug=null){
 			}
 			$data = array("data"=>$datas);
 			return $data;
-		}	
+		}
 		else{
 			return $sql.PHP_EOL;
 		}
@@ -191,16 +191,5 @@ function count_on_tbl($table,$where){
 	else{
 		return status("error");
 	}
-}
-function request(){
-	$key = array();
-	$value = array();
-	foreach ($_REQUEST as $key_ => $value_) {
-    array_push($key,$key_);
-    array_push($value,$value_);
-	}
-	$result = array_combine($key,$value);
-	unset($result["op"]);
-	return $result;
 }
 ?>

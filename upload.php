@@ -6,7 +6,7 @@ include ("static/inc/function/tools.php");
 						$folder="static/photo/";
 						$file_type=$_FILES['userfile']['type'];
 							if($file_type=="image/jpeg" || $file_type=="image/jpg" || $file_type=="image/gif"  || $file_type=="image/png"){
-								if($_FILES['userfile']['size'] < 1024000){
+								if($_FILES['userfile']['size'] < 10240000){
 									$name_file = $unhcr_case_number;
 									$photo = $folder.$name_file.".".end(explode(".",$_FILES['userfile']['name']));
 									move_uploaded_file($_FILES['userfile']['tmp_name'],$photo);

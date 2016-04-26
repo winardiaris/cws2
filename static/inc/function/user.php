@@ -47,6 +47,15 @@ function is_login($user_name){
 		return false;
 	}
 }
+function is_login_key($secret_key){
+	$data = count_on_tbl("user","`secret_key`='$secret_key' and `logged`='1'");
+	if($data==1){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
 
 function update_user($user_id,$user_name,$user_password,$user_real_name,$user_info,$secret_key){
 	$output = update_tbl("user","`user_password`='$user_password',`user_real_name`='$user_real_name',`user_name`='$user_name', `user_info`='$user_info' " ,"`user_id`='$user_id' and `secret_key`='$secret_key'");
@@ -75,7 +84,7 @@ function secret_key_check($secret_key){
 	return $output;
 }
 function get_user_secret_key($user_name,$user_password){
-		$secret_key = select_tbl("user","secret_key","`user_name`='$user_name' and `user_password`='$user_password'",1);
+		$secret_key = select_tbl("user","secret_key","`user_name`='$user_name' and `user_password`='$user_password'");
 		$json = json_encode($secret_key);
 		return $json;
 }

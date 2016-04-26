@@ -41,7 +41,7 @@ function UbahSimbol($str){
 
 	$str = preg_replace($search,$replace,$str);
 	return $str;
-	
+
 }
 function Balikins($str){
 	$search = array ("'xpsijix'",
@@ -90,10 +90,10 @@ function Balikins($str){
 function Balikin($str){
 	$str=Balikins($str);
 	$str = htmlspecialchars_decode(htmlspecialchars_decode(html_entity_decode($str, ENT_NOQUOTES, 'UTF-8')));
-	
+
 	return $str;
 }
- 
+
 function UbahXXX($str){
 	$str = trim($str);
 	$search = array ("'\''",
@@ -138,9 +138,9 @@ function UbahXXX($str){
 
 	$str = preg_replace($search,$replace,$str);
 	return $str;
-	
+
 }
- 
+
 function UbahBulan1($str){
 	$str = trim(htmlentities(htmlspecialchars($str)));
 	$search = array ("'Januari'","'Februari'","'Maret'","'April'","'Mei'","'Juni'","'Juli'","'Agustus'","'September'","'Oktober'","'Nopember'","'Desember'");
@@ -167,7 +167,7 @@ function UbahBulan($str){
 	$str=UbahBulan2($str);
 	$str=UbahBulan3($str);
 	return $str;
-	
+
 }
 
 function ifset($str){
@@ -204,6 +204,7 @@ function status($i){
 	return json_encode($data);
 }
 function generate_controller(){
+	$return = "";
 	$DB=DB();
 	$q = mysqli_query($DB,"SHOW TABLES");
 	 $fieldList = array();
@@ -215,18 +216,29 @@ function generate_controller(){
   }
   $unique = array_unique($fieldList);
   asort($unique);
-  
+
   foreach($unique as $data){
 		$pos = strpos($data,"password");
 		if($pos==true){
-			echo "\$$data = md5(ifset('$data'));<br>";
-			
+			$return .="\$$data = md5(ifset('$data'));\n";
+
 		}else{
-			echo "\$$data = ifset('$data');<br>";	
+			$return .="\$$data = ifset('$data');\n";
 		}
 	}
+
+	exec('echo "" > static/inc/req.php');
+	$myfile = fopen("static/inc/req.php", "w") or die("Unable to open file!");
+	$txt = "<?php \n";
+	fwrite($myfile, $txt);
+	$txt = $return;
+	fwrite($myfile, $txt);
+	$txt = "?>";
+	fwrite($myfile, $txt);
+	fclose($myfile);
+	echo "oke";
  }
- 
+
 function get_ip(){
 	$ip=0;
 			if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -236,9 +248,9 @@ function get_ip(){
 		} else {
 		    $ip = $_SERVER['REMOTE_ADDR'];
 		}
-		
+
 	return $ip;
-}	
+}
 function current_url(){
     $s = &$_SERVER;
     $ssl = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on') ? true:false;
@@ -256,12 +268,29 @@ function current_url(){
 function app_log($user_name){
 	$ip_address = get_ip();
 	$url = current_url();
-	
+
 	return insert_to_tbl("system_log","`user_name`,`ip_address`,`url`","'$user_name','$ip_address','$url'");
 }
 
 function test(){
 	return print_r(request());
 }
-
+function request(){
+	$key = array();
+	$value = array();
+	foreach ($_REQUEST as $key_ => $value_) {
+    array_push($key,$key_);
+    array_push($value,$value_);
+	}
+	$result = array_combine($key,$value);
+	unset($result["op"]);
+	return $result;
+}
+function calcutateAge($dob){
+	$dob = date("Y-m-d",strtotime($dob));
+	$dobObject = new DateTime($dob);
+	$nowObject = new DateTime();
+	$diff = $dobObject->diff($nowObject);
+	return $diff->y;
+}
 ?>

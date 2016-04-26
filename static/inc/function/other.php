@@ -29,4 +29,13 @@ function get_data_region_village($region_id){
 	$json = json_encode($data_region);
 	return $json;
 }
+
+function get_name_region($region_id){
+	$data_region = select_tbl("data_region","`region_name`"," `region_id`='$region_id'");
+	return $data_region['data'][0]['region_name'];
+}
+function get_name_family_relation($family_relation_id){
+	$data_relation = select_tbl("data_family_relation","`relation`"," `family_relation_id`='$family_relation_id'");
+	return $data_relation['data'][0]['relation'];
+}
 ?>
