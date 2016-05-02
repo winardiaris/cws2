@@ -95,7 +95,7 @@ function update_tbl($table,$set_data,$where,$debug=null){
 			if(empty($debug)){
 				$q = mysqli_query($DB,$sql);
 				if($q){
-					return status("success");
+					return true;
 				}
 			}
 			else{
@@ -103,11 +103,11 @@ function update_tbl($table,$set_data,$where,$debug=null){
 			}
 		}
 		else{
-			return status("error");
+			return false;
 		}
 	}
 	else{
-		return status("error");
+		return false;
 	}
 }
 function select_tbl_qry($query,$debug=null){

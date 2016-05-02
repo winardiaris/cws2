@@ -38,4 +38,8 @@ function get_name_family_relation($family_relation_id){
 	$data_relation = select_tbl("data_family_relation","`relation`"," `family_relation_id`='$family_relation_id'");
 	return $data_relation['data'][0]['relation'];
 }
+function get_name_country($country_id){
+	$data_country = select_tbl("data_country","`country_name`"," `country_id`='$country_id'");
+	return $data_country['data'][0]['country_name'];
+}
 ?>
