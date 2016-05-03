@@ -260,20 +260,11 @@ function person_comment(){
 		$is_login = is_login_key($secret_key);
 		if($is_login==true){
 
-			// unset($request['secret_key']);
-			// foreach($request as $key => $value){
-			// 	$field_name .="`$key`,";
-			// 	$value_data .="'$value',";
-			// }
-			// $field_name = substr($field_name,0,-1);
-			// $value_data = substr($value_data,0,-1);
+			$unhcr_case_number = $request['unhcr_case_number'];
+			$comment = $request['comment'];
 
-			$unhcr_case_number = request('unhcr_case_number');
-			$comment = request('comment');
-
-			$available_person = count_on_tbl("personal_information" ,"`unhcr_case_number`='$unhcr_case_number'");
+			$available_person = count_on_tbl("personal_information","`unhcr_case_number`='$unhcr_case_number'");
 			if($available_person>0){
-				// return status("duplicate");
 				$add_comment=update_tbl("personal_information","`comment`='$comment'","`unhcr_case_number`='$unhcr_case_number'");
 				if($add_comment==true){
 					return status('success');
