@@ -97,6 +97,9 @@ function update_tbl($table,$set_data,$where,$debug=null){
 				if($q){
 					return true;
 				}
+				else{
+					return false;
+				}
 			}
 			else{
 				return $sql.PHP_EOL;

@@ -13,6 +13,7 @@ function person_save(){
 	$field_name="";
 	$value_data="";
 	$request = request();
+	$unhcr_case_number = $request['unhcr_case_number'];
 	unset($request['age']);
 	foreach($request as $key => $value){
 		$field_name .="`$key`,";
@@ -33,6 +34,34 @@ function person_save(){
 			}else{
 				return status("error");
 			}
+	}
+}
+function person_update(){
+	$set_data="";
+	$request = request();
+	$request = array_filter($request);
+	$unhcr_case_number = $request['unhcr_case_number'];
+	unset($request['age']);
+	unset($request['unhcr_case_number']);
+	foreach($request as $key => $value){
+		$set_data .="`$key`='$value',";
+	}
+	$set_data = substr($set_data,0,-1);
+
+
+	$available_person = count_on_tbl("personal_information","`unhcr_case_number`='$unhcr_case_number'");
+	if($available_person>0){
+		$q = update_tbl("personal_information",$set_data,"`unhcr_case_number`='$unhcr_case_number'");
+		// return $q;
+		if($q==true){
+			return status("success");
+		}else{
+			return status("error");
+		}
+	}
+	else{
+		return status("No unhcr_case_number found!!");
+
 	}
 }
 function person_list(){

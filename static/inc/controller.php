@@ -49,6 +49,9 @@ if(isset($_REQUEST['op'])){
 		case "person_save":
 			  echo person_save();
 			break;
+		case "person_update":
+			  echo person_update();
+			break;
 		case "person_list":
 			  echo person_list();
 			break;
